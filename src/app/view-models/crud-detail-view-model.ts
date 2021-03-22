@@ -7,7 +7,7 @@ export abstract class CrudDetailViewModel<TDetail = any> extends ViewModel {
   @Property()
   detail: TDetail;
 
-  abstract get isEditable(): boolean;
+  abstract readonly isEditable: boolean;
   abstract editable: boolean;
 
   protected abstract readonly crudService: CrudService<
