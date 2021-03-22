@@ -1,0 +1,9 @@
+<ng-container *ngIf="vm.propertyChanged$ | async">
+  <div>
+    <p><i>Id:</i> {{ vm.detail?.id || "..." }}</p>
+    <p><i>Name:</i> {{ vm.detail?.name || "..." }}</p>
+    <p><i>Detail:</i> {{ vm.detail?.description || "..." }}</p>
+    <ng-content></ng-content>
+  </div>
+  <app-crud-actions-view></app-crud-actions-view>
+</ng-container>
