@@ -1,5 +1,6 @@
 <ng-container *ngIf="vm.propertyChanged$ | async">
   <div>
+    <p><i>Editable:</i> {{ vm.editable }}</p>
     <p><i>Id:</i> {{ vm.detail?.id || "..." }}</p>
     <p><i>Name:</i> {{ vm.detail?.name || "..." }}</p>
     <p><i>Detail:</i> {{ vm.detail?.description || "..." }}</p>

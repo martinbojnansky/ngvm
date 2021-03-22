@@ -1,9 +1,13 @@
 import { ViewModel, Property } from 'src/app/ngvm';
 import { CrudService } from 'src/app/services/crud.service';
+import { Injectable } from '@angular/core';
 
+@Injectable()
 export abstract class CrudDetailViewModel<TDetail = any> extends ViewModel {
   @Property()
   detail: TDetail;
+
+  abstract get editable(): boolean;
 
   protected abstract readonly crudService: CrudService<
     number,
@@ -15,7 +19,7 @@ export abstract class CrudDetailViewModel<TDetail = any> extends ViewModel {
     super();
   }
 
-  onInit() {
+  onInit(): void {
     this.load(1);
   }
 

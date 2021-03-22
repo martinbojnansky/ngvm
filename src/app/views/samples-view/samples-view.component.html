@@ -1,4 +1,13 @@
-<div class="side-by-side">
-  <app-sample-detail-view></app-sample-detail-view>
-  <app-sample-detail-view></app-sample-detail-view>
-</div>
+<ng-container *ngIf="vm.propertyChanged$ | async">
+  <div class="toolbar">
+    <label><i>Editable: </i></label>
+    <select [(ngModel)]="vm.editable">
+      <option value="true">Yes</option>
+      <option value="false">No</option>
+    </select>
+  </div>
+  <div class="side-by-side">
+    <app-sample-detail-view></app-sample-detail-view>
+    <app-sample-detail-view></app-sample-detail-view>
+  </div>
+</ng-container>

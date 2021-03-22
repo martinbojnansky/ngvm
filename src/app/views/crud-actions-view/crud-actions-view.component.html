@@ -1,3 +1,5 @@
 <ng-container *ngIf="vm.propertyChanged$ | async">
-  <button (click)="vm.load(vm.detail?.id + 1)">Next</button>
+  <button (click)="vm.load(vm.detail?.id + 1)" [disabled]="!vm.detail">
+    Next
+  </button>
 </ng-container>

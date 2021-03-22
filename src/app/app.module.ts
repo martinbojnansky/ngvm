@@ -8,6 +8,7 @@ import { SampleService } from './services/sample.service';
 import { CrudActionsViewComponent } from './views/crud-actions-view/crud-actions-view.component';
 import { SampleDetailViewComponent } from './views/sample-detail-view/sample-detail-view.component';
 import { SamplesViewComponent } from './views/samples-view/samples-view.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,7 @@ import { SamplesViewComponent } from './views/samples-view/samples-view.componen
     SampleDetailViewComponent,
     SamplesViewComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule],
   providers: [SampleService],
   bootstrap: [AppComponent],
 })
