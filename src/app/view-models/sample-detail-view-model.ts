@@ -3,13 +3,16 @@ import { CrudDetailViewModel } from './crud-detail-view-model';
 import { SampleDetail } from '../models/sample';
 import { SampleService } from '../services/sample.service';
 import { SamplesViewModel } from './samples-view-model';
-import { Parent } from '../ngvm';
+import { Parent, ParentProperty } from '../ngvm';
 
 @Injectable()
 export class SampleDetailViewModel extends CrudDetailViewModel<SampleDetail> {
-  get editable() {
+  get isEditable() {
     return this.samplesViewModel.editable;
   }
+
+  @ParentProperty('samplesViewModel', 'editable')
+  editable: boolean;
 
   @Parent()
   protected _samplesViewModel: SamplesViewModel;

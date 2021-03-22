@@ -23,6 +23,7 @@ export abstract class ViewModel {
   );
 }
 
+
 export function Property<T>() {
   return function (target: T, prop: string | symbol) {
     const key = prop as keyof T;
@@ -56,9 +57,32 @@ export function Parent<T>() {
     const setter = function (this: ViewModel, value: any) {
       const parentViewModel = value as ViewModel;
       parentViewModel._propertyChanged$.subscribe((pc) => {
-        console.log(`${key.toString()}.${pc}`);
         this._propertyChanged$.next(`${key.toString()}.${pc}`);
       }); // TODO: Subscribe only until destroyed
+    };
+
+    Object.defineProperty(target, key, {
+      get: getter,
+      set: setter,
+      enumerable: true,
+      configurable: true,
+    });
+  };
+}
+
+export function ParentProperty<T>(
+  parentViewModelKey: string,
+  parentViewModelPropertyKey: string
+) {
+  return function (target: T, prop: string | symbol) {
+    const key = prop as keyof T;
+
+    const getter = function (this: ViewModel) {
+      return (this as any)[parentViewModelKey][parentViewModelPropertyKey];
+    };
+
+    const setter = function (this: ViewModel, value: any) {
+      (this as any)[parentViewModelKey][parentViewModelPropertyKey] = value;
     };
 
     Object.defineProperty(target, key, {
