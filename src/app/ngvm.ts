@@ -2,7 +2,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Injectable, Type } from '@angular/core';
 
 @Injectable()
-export abstract class ViewModel {
+export class ViewModel {
   get propertyChanged$() {
     return this._propertyChanged$.asObservable();
   }
@@ -63,7 +63,7 @@ export function WithParents() {
           if (arg instanceof ViewModel) {
             arg['_propertyChanged$'].subscribe((pc) => {
               this['_propertyChanged$'].next({
-                ...this['_propertyChanged$'].value, // TODO: Update property?
+                ...this['_propertyChanged$'].value, // TODO: Update property itself if needed
                 name: `${arg.constructor.name}.${pc.name}`,
                 value: pc.value,
               });
