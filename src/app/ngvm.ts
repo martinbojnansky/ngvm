@@ -11,11 +11,12 @@ export abstract class ViewModel {
 
   onDestroy(): void {}
 
-  protected readonly _properties$: BehaviorSubject<any> = new BehaviorSubject(
-    {} // TODO: Load up with initial values
-  );
-  protected readonly _propertyChanged$: BehaviorSubject<string> = new BehaviorSubject(
-    '$' // TODO: Do not emmit such a value
+  protected readonly _propertyChanged$: BehaviorSubject<{
+    name: string;
+    value: any;
+    state: { [property: string]: any };
+  }> = new BehaviorSubject(
+    {} as any // TODO: Load up with initial values
   );
 
   private ngOnDestroy(): void {
@@ -28,12 +29,18 @@ export function Property<T>() {
     const key = prop as keyof T;
 
     const getter = function (this: ViewModel) {
-      return this._properties$.value[key as keyof T];
+      return this._propertyChanged$.value.state[key as any];
     };
 
     const setter = function (this: ViewModel, value: any) {
-      this._properties$.next({ ...this._properties$.value, [key]: value });
-      this._propertyChanged$.next(key.toString());
+      this._propertyChanged$.next({
+        name: key.toString(),
+        value: value,
+        state: {
+          ...this._propertyChanged$.value.state,
+          [key]: value,
+        },
+      });
     };
 
     Object.defineProperty(target, key, {
@@ -55,7 +62,11 @@ export function WithParents() {
         args.forEach((arg) => {
           if (arg instanceof ViewModel) {
             arg['_propertyChanged$'].subscribe((pc) => {
-              this['_propertyChanged$'].next(`${arg.constructor.name}.${pc}`);
+              this['_propertyChanged$'].next({
+                ...this['_propertyChanged$'].value, // TODO: Update property?
+                name: `${arg.constructor.name}.${pc.name}`,
+                value: pc.value,
+              });
             }); // TODO: Subscribe only until destroyed
           }
         });
